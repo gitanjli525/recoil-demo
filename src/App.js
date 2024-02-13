@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { atom, useRecoilState } from "recoil";
+
+const reposState = atom({
+  key: "repos",
+  default: [],
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [repos, setRepos] = useRecoilState(reposState);
+  useEffect(() => {
+    const getRepos = async () => {
+      const url = "";
+      const resp = await fetch(url);
+      const body = await resp.json();
+      setRepos(body);
+    };
+    getRepos();
+  }, []);
+  return repos.map((repo) => <div key={repo.url}></div>);
 }
 
 export default App;
